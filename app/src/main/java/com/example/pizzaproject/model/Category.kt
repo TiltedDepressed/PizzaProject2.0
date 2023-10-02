@@ -1,6 +1,8 @@
 package com.example.pizzaproject.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Category(
-    val category_id: Int,
-    val category: String,
+    @SerializedName("id_category" ) var id_category : Int,
+    @SerializedName("category"    ) var category   : String
     )

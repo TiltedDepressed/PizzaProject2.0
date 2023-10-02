@@ -1,11 +1,14 @@
 package com.example.pizzaproject.interfaces
 
+import com.example.pizzaproject.model.ApiResponse
 import com.example.pizzaproject.model.Category
 import com.example.pizzaproject.model.Client
 import com.example.pizzaproject.model.Ingredient
 import com.example.pizzaproject.model.Order
 import com.example.pizzaproject.model.Product
+import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.Path
 
 interface APIServiceInterface {
@@ -32,8 +35,10 @@ interface APIServiceInterface {
 
      /* categories */
 
+
+     @Headers("Content-Type:application/json")
      @GET("categories")
-     suspend fun getCategories(): List<Category>
+      fun getCategories(): Call<ApiResponse>
 
      /* clients */
      @GET("clients")
