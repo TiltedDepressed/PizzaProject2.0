@@ -1,4 +1,4 @@
-package com.example.pizzaproject.model
+package com.example.pizzaproject.model.category
 
 import com.google.gson.annotations.SerializedName
 
