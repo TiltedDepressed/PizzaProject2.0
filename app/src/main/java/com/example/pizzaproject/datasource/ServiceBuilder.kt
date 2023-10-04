@@ -9,22 +9,16 @@ object ServiceBuilder {
 
     private val client = OkHttpClient.Builder().build()
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://188.234.244.32:8090/api/")
+        .baseUrl("http://172.30.44.151:8090/api/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
     fun <T> buildService(service: Class<T>): T {
         return retrofit.create(service)
     }
 
 
-    private val images = Retrofit.Builder()
-        .baseUrl("http://188.234.244.32:8090/images/product/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
 
-    fun <T> imagesService(service: Class<T>): T {
-        return images.create(service)
-    }
 
 
 
