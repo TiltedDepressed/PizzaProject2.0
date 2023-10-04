@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pizzaproject.R
 import com.example.pizzaproject.model.product.Product
+import com.squareup.picasso.Picasso
 
 class ProductsAdapter(
     private val list: List<Product>
@@ -35,6 +36,7 @@ class ProductsAdapter(
         holder.title.text = product.nameProduct
         holder.description.text = product.description
         holder.priceButton.text = "от " +  product.price.toString() + "р "
+
 
     }
 
