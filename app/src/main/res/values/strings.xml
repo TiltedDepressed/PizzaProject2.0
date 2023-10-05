@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PizzaProject</string>
+    <string name="test"><![CDATA[<]]></string>
 </resources>

@@ -82,6 +82,7 @@
                 android:autoSizeMinTextSize="2sp"
                 android:autoSizeMaxTextSize="18sp"
                 android:textColor="@color/black"
+                android:stateListAnimator="@drawable/button_elevation"
                 app:layout_constraintStart_toEndOf="@+id/pizzaImage"
                 app:layout_constraintTop_toBottomOf="@+id/pizzaDescription" />
 

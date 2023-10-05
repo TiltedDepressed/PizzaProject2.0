@@ -23,6 +23,7 @@
             android:padding="0dp"
             android:text="text"
             android:layout_marginStart="5dp"
+            android:stateListAnimator="@drawable/button_elevation"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

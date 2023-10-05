@@ -1,8 +1,10 @@
 package com.example.pizzaproject.activities.product
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.pizzaproject.R
@@ -22,6 +24,8 @@ import retrofit2.Response
 
 class ProductActivity : AppCompatActivity() {
 
+
+
      private lateinit var binding: ActivityProductBinding
 
      var productList = ArrayList<Product>()
@@ -31,6 +35,11 @@ class ProductActivity : AppCompatActivity() {
         binding = ActivityProductBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        val backbutton: Button = findViewById(R.id.backButton)
+        backbutton.setOnClickListener{
+            val intent = Intent(this@ProductActivity,MainActivity::class.java)
+            startActivity(intent)
+        }
 
 
 
