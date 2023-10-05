@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PizzaProject"
         tools:targetApi="31">
-
+        <activity
+            android:name=".activities.product.ProductActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.main.MainActivity"
             android:exported="true">

@@ -29,8 +29,8 @@ interface APIServiceInterface {
       fun getProducts(): Call<ApiResponseProduct>
 
      @Headers("Content-Type:application/json")
-     @GET("products/{products_id}")
-     fun getProductsById(@Path("products_id") id : Int): Call<ApiResponseProduct>
+     @GET("products/{product_id}")
+     fun getProductsById(@Path("product_id") id : Int): Call<ApiResponseProduct>
 
      @GET("products/categories/{category_id}")
      suspend fun getProductsCategoriesByCategoryId(@Path("category_id") id : Int): Product?
