@@ -17,6 +17,7 @@ import com.example.pizzaproject.interfaces.APIServiceInterface
 import com.example.pizzaproject.model.category.ApiResponseCategory
 import com.example.pizzaproject.model.product.ApiResponseProduct
 import com.example.pizzaproject.model.product.Product
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,8 +55,9 @@ class ProductActivity : AppCompatActivity() {
                 try{
                     val responseBody = response.body()!!
                     productList = responseBody.data
-                    val adapter = ProductDetailAdapter(productList)
-                    binding.productsRecycler.adapter = adapter
+                    Picasso.get().load( "http:/172.30.44.151:8090/images/product/"+productList[0].image).into(binding.pizzaImage)
+                    binding.pizzaTitle.text=productList[0].nameProduct
+                    binding.pizzaDescription.text = productList[0].description
                 }
                 catch (ex:java.lang.Exception){
                     ex.printStackTrace()
