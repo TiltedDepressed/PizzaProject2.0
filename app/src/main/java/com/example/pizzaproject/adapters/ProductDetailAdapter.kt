@@ -39,8 +39,6 @@ class ProductDetailAdapter(
         val product = list[position]
         holder.title.text = product.nameProduct
         holder.description.text = product.description
-
-
         Picasso.get().load( "http:/172.30.44.151:8090/images/product/"+product.image).into(holder.image)
     }
 

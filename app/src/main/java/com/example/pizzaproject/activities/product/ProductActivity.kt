@@ -48,16 +48,17 @@ class ProductActivity : AppCompatActivity() {
         getProductById(productId)
     }
 
-    private fun getProductById(id: Int){
+    private fun getProductById(id: Int) {
         val retrofit = ServiceBuilder.buildService(APIServiceInterface::class.java)
         retrofit.getProductsById(id).enqueue(object: Callback<ApiResponseProduct>{
-            override fun onResponse(call: Call<ApiResponseProduct>, response: Response<ApiResponseProduct>){
+            override fun onResponse(call: Call<ApiResponseProduct>, response: Response<ApiResponseProduct>) {
                 try{
                     val responseBody = response.body()!!
                     productList = responseBody.data
                     Picasso.get().load( "http:/172.30.44.151:8090/images/product/"+productList[0].image).into(binding.pizzaImage)
                     binding.pizzaTitle.text=productList[0].nameProduct
                     binding.pizzaDescription.text = productList[0].description
+
                 }
                 catch (ex:java.lang.Exception){
                     ex.printStackTrace()
