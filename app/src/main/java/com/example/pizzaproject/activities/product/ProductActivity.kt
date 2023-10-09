@@ -1,27 +1,22 @@
 package com.example.pizzaproject.activities.product
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.isGone
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pizzaproject.R
 import com.example.pizzaproject.activities.main.MainActivity
-import com.example.pizzaproject.adapters.CategoriesAdapter
 import com.example.pizzaproject.adapters.IngredientsAdapter
-import com.example.pizzaproject.adapters.ProductDetailAdapter
-import com.example.pizzaproject.adapters.ProductsAdapter
 import com.example.pizzaproject.databinding.ActivityProductBinding
 import com.example.pizzaproject.datasource.ServiceBuilder
 import com.example.pizzaproject.interfaces.APIServiceInterface
-import com.example.pizzaproject.model.category.ApiResponseCategory
 import com.example.pizzaproject.model.ingredient.ApiResponseIngredient
 import com.example.pizzaproject.model.ingredient.Ingredient
 import com.example.pizzaproject.model.product.ApiResponseProduct
@@ -34,19 +29,18 @@ import retrofit2.Response
 
 class ProductActivity : AppCompatActivity() {
 
-
-
      private lateinit var binding: ActivityProductBinding
 
      var productList = ArrayList<Product>()
 
     var ingredientList = ArrayList<Ingredient>()
 
+    var totalPriceArray = ArrayList<Int>()
+
     companion object{
+        const val EXTRA_ID = "extra_id"
         const val COST = "COST"
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +53,6 @@ class ProductActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-
         val productId = intent.getIntExtra(MainActivity.EXTRA_ID,0)
         getProductById(productId)
     }
@@ -68,8 +60,10 @@ class ProductActivity : AppCompatActivity() {
     private fun getProductById(id: Int) {
         val retrofit = ServiceBuilder.buildService(APIServiceInterface::class.java)
         retrofit.getProductsById(id).enqueue(object: Callback<ApiResponseProduct>{
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<ApiResponseProduct>, response: Response<ApiResponseProduct>) {
                 try{
+
                        /* size buttons container */
                     val sizeButtonsContainer : LinearLayout = findViewById(R.id.sizeButtonsContainer)
                     val sizeButtonSmall : Button = findViewById(R.id.sizeButtonSmall)
@@ -81,7 +75,6 @@ class ProductActivity : AppCompatActivity() {
                     val typeButtonTraditional : Button = findViewById(R.id.typeButtonTraditional)
                     val typeButtonSlim : Button = findViewById(R.id.typeButtonSlim)
 
-
                     val totalPriceButton : Button = findViewById(R.id.totalPriceButton)
                     val addPizzaText : TextView = findViewById(R.id.AddPizzaText)
                     val size : TextView = findViewById(R.id.size)
@@ -89,15 +82,12 @@ class ProductActivity : AppCompatActivity() {
                     val weight: TextView = findViewById(R.id.weight)
                     val ingredientsRecycle : RecyclerView = findViewById(R.id.ingredientsRecyclerView)
 
-
                     val responseBody = response.body()!!
                     productList = responseBody.data
                     Picasso.get().load( "http:/188.234.244.32:8090/images/product/"+
                             productList[0].image).into(binding.pizzaImage)
                     binding.pizzaTitle.text=productList[0].nameProduct
                     binding.pizzaDescription.text = productList[0].description
-
-
                     totalPriceButton.text = "В КОРЗИНУ ЗА ${productList[0].price} ₽"
 
                     val totalPrice = productList[0].price
@@ -108,19 +98,15 @@ class ProductActivity : AppCompatActivity() {
 
                     retrofit.getIngredients().enqueue(object: Callback<ApiResponseIngredient>{
                         override fun onResponse(call: Call<ApiResponseIngredient>, response: Response<ApiResponseIngredient>){
-                            try {
                                 val responseBody = response.body()!!
                                 ingredientList = responseBody.data
                                 val adapter = IngredientsAdapter(ingredientList){
                                     val intent = Intent(this@ProductActivity,ProductActivity::class.java)
                                     intent.putExtra(ProductActivity.COST,it)
-                                    val ingredientCost = intent.getIntExtra(ProductActivity.COST,0)
-                                    addPizzaText.text = ingredientCost.toString()
+                                    val cost = intent.getIntExtra(ProductActivity.COST,0)
                                 }
                                 binding.ingredientsRecyclerView.adapter = adapter
-                            } catch (ex:java.lang.Exception){
-                                ex.printStackTrace()
-                            }
+
                         }
 
                         override fun onFailure(call: Call<ApiResponseIngredient>, t: Throwable) {
@@ -128,29 +114,33 @@ class ProductActivity : AppCompatActivity() {
                         }
                     })
 
+
                     if(productList[0].categoryId == 1){
                         sizeButtonSmall.setOnClickListener {
                             size.text =  "Маленькая 20см "
                             type.text = "традиционное тесто"
                             weight.text = " 350г"
 
-                            newTotalPrice = (totalPrice?.minus((onePercent?.times(15)!!))!!)
-                            totalPriceButton.text = "В КОРЗИНУ ЗА ${newTotalPrice} ₽"
+                            newTotalPrice = (totalPrice.minus((onePercent?.times(15)!!)))
+                            totalPriceButton.text = "В КОРЗИНУ ЗА $newTotalPrice ₽"
+
 
                             typeButtonTraditional.setOnClickListener {
                                 type.text = "традиционное тесто"
                                 weight.text = " 350г"
 
-                                newTotalPrice = (totalPrice?.minus((onePercent?.times(15)!!))!!)
-                                totalPriceButton.text = "В КОРЗИНУ ЗА ${newTotalPrice} ₽"
+                                newTotalPrice = (totalPrice.minus((onePercent.times(15))))
+                                totalPriceButton.text = "В КОРЗИНУ ЗА $newTotalPrice ₽"
+
 
                             }
                             typeButtonSlim.setOnClickListener {
                                 type.text = "тонкое тесто"
                                 weight.text = " 300г"
 
-                                newTotalPrice = (totalPrice?.minus((onePercent?.times(20)!!))!!)
-                                totalPriceButton.text = "В КОРЗИНУ ЗА ${newTotalPrice} ₽"
+                                newTotalPrice = (totalPrice.minus((onePercent.times(20))))
+                                totalPriceButton.text = "В КОРЗИНУ ЗА $newTotalPrice ₽"
+
 
                             }
                         }
@@ -171,7 +161,7 @@ class ProductActivity : AppCompatActivity() {
                                 weight.text = " 400г"
 
                                 newTotalPrice = (totalPrice?.minus((onePercent?.times(5)!!))!!)
-                                totalPriceButton.text = "В КОРЗИНУ ЗА ${newTotalPrice} ₽"
+                                totalPriceButton.text = "В КОРЗИНУ ЗА $newTotalPrice ₽"
 
 
                             }
@@ -182,7 +172,7 @@ class ProductActivity : AppCompatActivity() {
                             weight.text = " 800г"
 
                             newTotalPrice = (totalPrice?.plus((onePercent?.times(40)!!))!!)
-                            totalPriceButton.text = "В КОРЗИНУ ЗА ${newTotalPrice} ₽"
+                            totalPriceButton.text = "В КОРЗИНУ ЗА $newTotalPrice ₽"
 
 
                             typeButtonTraditional.setOnClickListener {
@@ -190,14 +180,14 @@ class ProductActivity : AppCompatActivity() {
                                 weight.text = " 800г"
 
                                 newTotalPrice = (totalPrice?.plus((onePercent?.times(40)!!))!!)
-                                totalPriceButton.text = "В КОРЗИНУ ЗА ${newTotalPrice} ₽"
+                                totalPriceButton.text = "В КОРЗИНУ ЗА $newTotalPrice ₽"
                             }
                             typeButtonSlim.setOnClickListener {
                                 type.text = "тонкое тесто"
                                 weight.text = " 700г"
 
                                 newTotalPrice = (totalPrice?.plus((onePercent?.times(20)!!))!!)
-                                totalPriceButton.text = "В КОРЗИНУ ЗА ${newTotalPrice} ₽"
+                                totalPriceButton.text = "В КОРЗИНУ ЗА $newTotalPrice ₽"
                             }
                         }
                         typeButtonTraditional.setOnClickListener {
@@ -208,6 +198,7 @@ class ProductActivity : AppCompatActivity() {
                             Toast.makeText(applicationContext,"Сначала выберете размер",Toast.LENGTH_SHORT).show()
                         }
                     }
+
 
                     /* Если категория товара != пицце то не показываем эти элементы на экране */
 
@@ -228,6 +219,7 @@ class ProductActivity : AppCompatActivity() {
                         Toast.makeText(applicationContext, "Не жми сюда я ничего не делаю", Toast.LENGTH_SHORT).show()
                     }
 
+
                 }
                 catch (ex:java.lang.Exception){
                     ex.printStackTrace()
@@ -238,8 +230,4 @@ class ProductActivity : AppCompatActivity() {
             }
         })
     }
-
-
-
-
 }

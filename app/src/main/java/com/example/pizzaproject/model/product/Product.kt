@@ -7,6 +7,6 @@ data class Product(
     @SerializedName("name_product" ) var nameProduct : String? = null,
     @SerializedName("category_id"  ) var categoryId  : Int?    = null,
     @SerializedName("description"  ) var description : String? = null,
-    @SerializedName("price"        ) var price       : Int?    = null,
+    @SerializedName("price"        ) var price       : Int,
     @SerializedName("image"        ) var image       : String? = null
 )

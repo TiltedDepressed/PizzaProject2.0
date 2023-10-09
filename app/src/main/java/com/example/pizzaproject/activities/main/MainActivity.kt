@@ -7,12 +7,15 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pizzaproject.activities.product.ProductActivity
 import com.example.pizzaproject.adapters.CategoriesAdapter
+import com.example.pizzaproject.adapters.IngredientsAdapter
 import com.example.pizzaproject.adapters.ProductsAdapter
 import com.example.pizzaproject.databinding.ActivityMainBinding
 import com.example.pizzaproject.datasource.ServiceBuilder
 import com.example.pizzaproject.interfaces.APIServiceInterface
 import com.example.pizzaproject.model.category.ApiResponseCategory
 import com.example.pizzaproject.model.category.Category
+import com.example.pizzaproject.model.ingredient.ApiResponseIngredient
+import com.example.pizzaproject.model.ingredient.Ingredient
 import com.example.pizzaproject.model.product.ApiResponseProduct
 import com.example.pizzaproject.model.product.Product
 import retrofit2.Call
@@ -24,8 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     companion object{
         const val EXTRA_ID = "extra_id"
+        const val COST = "cost"
     }
-
     var categoryList = ArrayList<Category>()
     var productList = ArrayList<Product>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,8 +65,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-
-
     private fun getAllProducts(){
        val retrofit = ServiceBuilder.buildService(APIServiceInterface::class.java)
         retrofit.getProducts().enqueue(object: Callback<ApiResponseProduct>{
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                 try {
                     val responseBody = response.body()!!
                     productList = responseBody.data
-                    val adapter = ProductsAdapter(productList){
+                    val adapter = ProductsAdapter(productList){ it ->
                         val intent = Intent(this@MainActivity,ProductActivity::class.java)
                         intent.putExtra(EXTRA_ID,it)
                         startActivity(intent)
