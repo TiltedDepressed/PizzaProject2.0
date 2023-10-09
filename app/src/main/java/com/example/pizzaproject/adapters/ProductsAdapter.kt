@@ -41,7 +41,7 @@ class ProductsAdapter(
         holder.title.text = product.nameProduct
         holder.description.text = product.description
         holder.priceButton.text = "от " +  product.price.toString() + "р "
-        Picasso.get().load( "http://172.30.44.151:8090/images/product/"+product.image).into(holder.image)
+        Picasso.get().load( "http://188.234.244.32:8090/images/product/"+product.image).into(holder.image)
 
 
     }

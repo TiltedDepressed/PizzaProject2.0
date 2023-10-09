@@ -1,11 +1,11 @@
 package com.example.pizzaproject.interfaces
 
 import com.example.pizzaproject.model.Client
-import com.example.pizzaproject.model.Ingredient
+import com.example.pizzaproject.model.ingredient.Ingredient
 import com.example.pizzaproject.model.Order
 import com.example.pizzaproject.model.category.ApiResponseCategory
+import com.example.pizzaproject.model.ingredient.ApiResponseIngredient
 import com.example.pizzaproject.model.product.ApiResponseProduct
-import com.example.pizzaproject.model.product.Product
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -17,10 +17,10 @@ interface APIServiceInterface {
      /* ingredients */
 
      @GET("ingredients")
-     suspend fun getIngredients(): List<Ingredient>
+      fun getIngredients(): Call<ApiResponseIngredient>
 
      @GET("ingredients/{product_id}")
-     suspend fun getIngredientsByProductId(@Path("product_id") id : Int) : Ingredient?
+      fun getIngredientsByProductId(@Path("product_id") id : Int) : Call<ApiResponseIngredient>
 
      /* products */
 

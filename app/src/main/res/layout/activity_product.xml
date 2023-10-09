@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".activities.product.ProductActivity">
 <ScrollView
     android:id="@+id/scroll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:fillViewport="true"
     android:scrollbars="none"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/totalPriceButton">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,19 +62,57 @@
 
         </TextView>
 
-        <TextView
-            android:id="@+id/pizzaSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:isScrollContainer="true"
-            android:text="Size"
-            android:textColor="@color/gray"
-            android:textSize="20dp"
-            android:textStyle="normal"
-            >
-        </TextView>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:isScrollContainer="true"
+        android:text="Средняя 30см, традиционное тесто, 490г"
+        android:textColor="@color/gray"
+        android:textSize="18dp"
+        android:textStyle="normal"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:isScrollContainer="true"
+        android:text=""
+        android:textColor="@color/gray"
+        android:textSize="18dp"
+        android:textStyle="normal"
+        >
+    </TextView>
+    <TextView
+        android:id="@+id/weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:isScrollContainer="true"
+        android:text=""
+        android:textColor="@color/gray"
+        android:textSize="18dp"
+        android:textStyle="normal"
+        >
+    </TextView>
+
+</LinearLayout>
+
+
+
+
+
         <TextView
             android:id="@+id/pizzaDescription"
             android:layout_width="wrap_content"
@@ -83,7 +122,7 @@
             android:isScrollContainer="true"
             android:text="Description"
             android:textColor="@color/gray"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:textStyle="normal"
             >
         </TextView>
@@ -97,8 +136,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:gravity="center"
-            android:background="@color/lightgray"
-
+            android:background="@drawable/shape"
             >
 
             <Button
@@ -139,16 +177,14 @@
 
         <LinearLayout
             android:id="@+id/typeButtonsContainer"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
+            android:background="@drawable/shape"
             android:gravity="center"
-            android:background="@color/lightgray"
-            >
-
+            android:orientation="horizontal">
             <Button
                 android:id="@+id/typeButtonTraditional"
                 android:layout_width="170dp"
@@ -156,25 +192,26 @@
                 android:backgroundTint="@color/lightgray"
                 android:text="Традиционное"
                 android:textColor="@color/black"
-                android:textSize="17dp"
+                android:textSize="15sp"
                 android:textStyle="bold"
-                app:cornerRadius="15dp"
+                app:cornerRadius="10dp"
                 >
-
             </Button>
             <Button
                 android:id="@+id/typeButtonSlim"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/lightgray"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="17dp"
                 android:text="Тонкое"
-                app:cornerRadius="15dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="10dp"
                 >
+
             </Button>
         </LinearLayout>
+
         <TextView
             android:id="@+id/AddPizzaText"
             android:layout_width="wrap_content"
@@ -182,16 +219,45 @@
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
             android:textColor="@color/black"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:text="Добавить в пиццу"
             >
 
         </TextView>
 
+      <!--  тут ресайклер но я этого не хотел ситуация была безвыходная. -->
+        
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ingredientsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
+
 
     </LinearLayout>
-
 </ScrollView>
+
+
+    <Button
+        android:id="@+id/totalPriceButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:text=""
+        android:textColor="@color/white"
+        android:backgroundTint="@color/orange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+    </Button>
+    
+    
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
