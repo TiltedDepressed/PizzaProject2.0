@@ -10,8 +10,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pizzaproject.R
+import com.example.pizzaproject.activities.basket.BasketActivity
 import com.example.pizzaproject.activities.main.MainActivity
 import com.example.pizzaproject.adapters.IngredientsAdapter
 import com.example.pizzaproject.databinding.ActivityProductBinding
@@ -37,7 +40,9 @@ class ProductActivity : AppCompatActivity() {
 
     var totalPriceArray = ArrayList<Int>()
 
+
     companion object{
+
         const val EXTRA_ID = "extra_id"
         const val COST = "COST"
     }
@@ -84,7 +89,7 @@ class ProductActivity : AppCompatActivity() {
 
                     val responseBody = response.body()!!
                     productList = responseBody.data
-                    Picasso.get().load( "http:/188.234.244.32:8090/images/product/"+
+                    Picasso.get().load( "http:/172.30.44.151:8090/images/product/"+
                             productList[0].image).into(binding.pizzaImage)
                     binding.pizzaTitle.text=productList[0].nameProduct
                     binding.pizzaDescription.text = productList[0].description
@@ -213,10 +218,13 @@ class ProductActivity : AppCompatActivity() {
 
                     }
 
-                    /* Затычка для тоталпрайсбаттон(временная) */
+
+
 
                     totalPriceButton.setOnClickListener {
-                        Toast.makeText(applicationContext, "Не жми сюда я ничего не делаю", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@ProductActivity, BasketActivity::class.java)
+                        intent.putExtra("productId",productList[0].idProduct.toString())
+                        startActivity(intent)
                     }
 
 

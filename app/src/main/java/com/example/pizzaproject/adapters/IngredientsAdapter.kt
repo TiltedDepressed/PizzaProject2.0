@@ -24,7 +24,7 @@ class IngredientsAdapter(
 
         init {
             priceButton.setOnClickListener {
-                onClick(list[adapterPosition].ingredientCost)
+                onClick(list[adapterPosition].ingredientId)
             }
         }
     }
@@ -40,7 +40,7 @@ class IngredientsAdapter(
     override fun onBindViewHolder(holder: IngredientsAdapter.ViewHolder, position: Int) {
         val ingredient = list[position]
         holder.priceButton.text = list[position].ingredientCost.toString() + "₽"
-        Picasso.get().load( "http:/188.234.244.32:8090/images/product/"+ingredient.ingredientPhoto).into(holder.ingredientImage)
+        Picasso.get().load( "http:/172.30.44.151:8090/images/product/"+ingredient.ingredientPhoto).into(holder.ingredientImage)
     }
 
 
